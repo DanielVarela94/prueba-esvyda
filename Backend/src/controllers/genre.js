@@ -4,10 +4,17 @@ var Genre = require('../models/genre')
 var controller = {
     getAllGenres: async (req, res) => {
         const genres = await Genre.findAll();
-        return res.status(200).send({
-            message: "Obtener todos los géneros",
-            genres: genres
-        });
+        if(genres){
+            return res.status(200).send({
+                message: "Se ha encontrado uno o más géneros.",
+                genres: genres
+            });
+        }else{
+            return res.status(404).send({
+                message: "No se ha encontrado ningún género"
+            })
+        }
+        
     },
 
     saveNewGenre: async (req, res) => {
@@ -25,16 +32,11 @@ var controller = {
                 message: "Error al guardar el género."
             });
         }
-        /* return res.status(200).send({
-             message: "Guardar nuevo género",
-             genre: genre
-         });*/
     },
 
     getGenre: async (req, res) => {
         const id = req.params.id;
         const genre = await Genre.findByPk(id);
-
         if (genre) {
             return res.status(200).send({
                 message: "Género encontrado",
@@ -45,7 +47,6 @@ var controller = {
                 message: `No existe un género con id: ${id}`
             })
         }
-
     }
 };
 

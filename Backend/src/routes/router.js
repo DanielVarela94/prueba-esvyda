@@ -4,13 +4,17 @@ const express = require('express');
 const router = express.Router();
 const GenreController = require('../controllers/genre');
 const MovieController = require('../controllers/movie');
-
+const ActorController = require('../controllers/actor');
 
 //RUTAS GENERO
 router.get('/get-genre/:id', GenreController.getGenre);
 router.get('/get-genres', GenreController.getAllGenres);
 router.post('/save-genre', GenreController.saveNewGenre);
 
+//RUTAS ACTOR
+router.get('/get-actor/:name', ActorController.getActor);
+router.get('/get-actors', ActorController.getAllActors);
+router.post('/save-actor', ActorController.saveNewActor);
 
 //RUTAS PELICULAS
 router.get('/get-movies', MovieController.getAllMovies);
