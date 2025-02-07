@@ -2,10 +2,11 @@
 
 const express = require('express');
 const app = express();
-//const connection = require('./src/config/db');
 const dotenv = require('dotenv');
 dotenv.config({ path: './env/.env' });
 const db_export = require('./src/config/db');
+
+var router = require('./src/routes/router');
 
 // PUERTO DEL SERVIDOR
 const PORT = process.env.PORT; 
@@ -21,9 +22,4 @@ app.listen(PORT, () => {
     db_export.dbConnection();
 });
 
-
-app.get('/test', (req, res) => {
-    res.status(200).send({
-        message: "Hola test"
-    });
-});
+app.use('/', router);
