@@ -1,18 +1,21 @@
-var Movie = require('../models/movie');
+const multer = require('multer');
+const Movie = require('../models/movie');
+const fs = require('node:fs');
+const path = require('path');
 
-var controller = {
+const controller = {
     getAllMovies: async (req, res) => {
         const movies = await Movie.findAll();
-        return res.status(200).send({
-            message: "Obtener todas las películas",
-            movies: movies
-        });
-    },
-
-    saveMovie: async (req, res) => {
-        return res.status(200).send({
-            message: "Guardar película"
-        });
+        if (movies.length > 0) {
+            return res.status(200).send({
+                message: "Se ha encontrado una o más películas.",
+                movies: movies
+            });
+        } else {
+            return res.status(404).send({
+                message: "No se ha encontrado ninguna película."
+            });
+        }
     },
 
     updateMovie: async (req, res) => {
@@ -27,7 +30,7 @@ var controller = {
         if (movie) {
             return res.status(200).send({
                 message: "Búsqueda de película exitosa",
-                movie
+                movie: movie
             });
         } else {
             return res.status(404).send({
@@ -45,12 +48,12 @@ var controller = {
         });
         if (movies.length > 0) {
             return res.status(200).send({
-                message: `Películas que pertenecen al género ${genre}`,
+                message: `Se han encontrado una o más películas que pertenecen al género ${genre}`,
                 movies: movies
             })
         } else {
             return res.status(404).send({
-                message: `No existen películas para el género ${genre}`
+                message: `No existen películas del género ${genre}`
             })
         }
     },
@@ -64,7 +67,7 @@ var controller = {
         });
         if (movies.length > 0) {
             return res.status(200).send({
-                message: `Películas que se lanzaron el ${date}`,
+                message: `Se ha encontrado una o más películas que se lanzaron el ${date}`,
                 movies: movies
             })
         } else {
@@ -77,12 +80,13 @@ var controller = {
     deleteMovie: async (req, res) => {
         const id = req.params.id;
         const movie = await Movie.findByPk(id);
-        if(movie){
+        if (movie) {
+            fs.unlinkSync(movie.image);
             await movie.destroy();
             return res.status(200).send({
-                message: `La película ${movie} ha sido eliminada`
+                message: `La película ha sido eliminada`
             });
-        } else{
+        } else {
             return res.status(404).send({
                 message: `La película con id: ${id} no ha sido encontrada.`
             });
@@ -90,39 +94,64 @@ var controller = {
     },
 
     saveMovie: async (req, res) => {
-        const name = req.params.name;
-        const image = req.body.image;
-        const synopsis = req.body.synopsis;
-        const date = req.body.date;
-        const genre = req.body.genre;
-        const studio = req.body.studio;
-        const age = req.body.age;
-        const qualification = req.body.qualification;
-        const duration = req.body.duration;
-
-        return res.status(200).send({
-            message: "estoy guardando una película"
-        });
-    }
-
-   /* getMoviesByActor: async (req, res) => {
-        const actor = req.params.actor;
-        const movies = await Movie.findAll({
-            where: {
-                actor: actor
-            }
-        });
-        if (movies) {
+        const movie = new Movie();
+        try {
+            movie.name = req.body.name;
+            movie.image = saveImage(req.file, movie.name);
+            console.log(movie.image);
+            movie.synopsis = req.body.synopsis;
+            movie.date = date = req.body.date;
+            movie.genre = req.body.genre;
+            movie.studio = req.body.studio;
+            movie.age = req.body.age;
+            movie.qualification = req.body.qualification;
+            movie.duration = req.body.duration;
+            await movie.save();
             return res.status(200).send({
-                message: `Películas en las que actua ${genre}`,
-                movies: movies
-            })
-        } else {
-            return res.status(404).send({
-                message: `No existen películas en las que actua ${genre}`
-            })
+                message: `La película ${movie.name} ha sido guardada exitosamente`
+            });
         }
-    }*/
+        catch (error) {
+            console.log(`Error al guardar la película. ${error}`);
+            return res.status(500).send({
+                message: "Error al guardar la película."
+            });
+        }
+    },
+    updateMovie: async (req, res) => {
+        const id = req.params.id;
+        const data_update = req.body;
+        try {
+            const movie = await Movie.findByPk(id);
+            if (movie) {
+                fs.unlinkSync(movie.image);
+                Object.assign(movie, data_update);
+                movie.image = saveImage(req.file, movie.name);
+                await movie.save();
+                return res.status(200).send({
+                    message: "Película actualizada exitosamente.",
+                    movie: movie
+                });
+            } else {
+                return res.status(404).send({
+                    message: "La película no ha sido encontrada."
+                });
+            }
+
+        } catch (error) {
+            console.log(error);
+            return res.status(500).send({
+                message: "Ha ocurrido un error al actualizar la película."
+            });
+        }
+    }
 };
+
+function saveImage(file, name) {
+    const format = "." + (file.originalname.split(".", 2))[1];
+    const new_path = path.join(__dirname, `../public/files/${name}${format}`);
+    fs.renameSync(file.path, new_path);
+    return new_path;
+}
 
 module.exports = controller;

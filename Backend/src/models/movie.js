@@ -8,7 +8,7 @@ const Movie = db_export.db.define('Movie', {
         type: DataTypes.STRING
     },
     image:{
-        type: DataTypes.BLOB
+        type: DataTypes.STRING
     },
     synopsis:{
         type: DataTypes.STRING
