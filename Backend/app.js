@@ -2,6 +2,7 @@
 
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 const app = express();
 dotenv.config({ path: './env/.env' });
@@ -22,5 +23,14 @@ app.listen(PORT, () => {
     //LLAMADA A FUNCION PARA CONECTAR A BASE DE DATOS.
     db_export.dbConnection();
 });
+
+//app.use(cors()); 
+
+app.use(cors({
+    origin: 'http://localhost:4200', 
+    methods: 'GET,POST,PATCH,DELETE',
+    allowedHeaders: 'Content-Type,Authorization'
+  }));
+  
 
 app.use('/', router);
