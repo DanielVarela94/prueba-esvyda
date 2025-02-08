@@ -10,18 +10,18 @@
             <a class="nav-link active" aria-current="page" [routerLink]="['/add-movie']" routerLinkActive="router-link-active" >Añadir</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="#">Mostrar Todas</a>
+            <a class="nav-link active" [routerLink]="['/list-movies']" routerLinkActive="router-link-active">Mostrar Todas</a>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item active dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Buscar por
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Género</a></li>
-              <li><a class="dropdown-item" href="#">Actor</a></li>
-              <li><a class="dropdown-item" href="#">Califica  ción</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/search-genre']" routerLinkActive="router-link-active">Género</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/search-actor']" routerLinkActive="router-link-active">Actor</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/search-qualification']" routerLinkActive="router-link-active">Calificación</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Fecha de Lanzamiento</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/search-date']" routerLinkActive="router-link-active">Fecha de Lanzamiento</a></li>
             </ul>
           </li>
         </ul>
