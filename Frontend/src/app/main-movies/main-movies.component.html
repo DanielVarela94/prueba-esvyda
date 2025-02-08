@@ -1,9 +1,24 @@
-<div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
+<div class="card m-2" style="width: 18rem;" *ngFor="let movie of movies$ | async">
+    <img class="card-img-top" *ngIf="movie.image" [src]="'http://localhost:3000/files/' + movie.name + '.jpg'"
+        alt="{{ movie.name }}" width="200">
     <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-            content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <h5 class="card-title">{{ movie.name }}</h5>
+        <p class="card-text"><strong>Duración:</strong> {{ movie.duration }} min</p>
+        
+        <div class="d-flex justify-content-between">
+            <a href="#" class="btn btn-danger">Ver más</a>
+            <div class="btn-group dropup">
+                <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link active" aria-current="page" href="#">Editar</a></li>
+                    <li><a class="nav-link active" aria-current="page" href="#">Eliminar</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
+
+
+
