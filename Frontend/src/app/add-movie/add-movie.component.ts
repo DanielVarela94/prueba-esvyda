@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms'
+import { FormControl, FormGroup, FormBuilder, FormArray } from '@angular/forms'
 import { SaveMovieService } from '../services/save-movie.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -42,8 +42,25 @@ export class AddMovieComponent {
       studio: [''],
       age: [''],
       qualification: [''],
-      duration: ['']
+      duration: [''],
+      actors: this.fb.array([this.createActorInput()])
     })
+  }
+
+  //CREAR CAMPO ACTOR
+  createActorInput(): FormGroup {
+    return this.fb.group({actor: ['']});
+  }
+  //OBTENER ARRAY DE ACTORES
+  get actors(): FormArray{
+    return this.movieForm.get('actors') as FormArray;
+  }
+
+  //AGREGAR UN NUEVO CAMPO 
+  onActorChange(index:number){
+    if(index === this.actors.length-1){
+      this.actors.push(this.createActorInput());
+    }
   }
 
   fileSelected(event: Event) {
@@ -54,7 +71,7 @@ export class AddMovieComponent {
   }
 
   sendForm() {
-
+    console.log('Datos enviados:', this.movieForm.value);
     if (this.movieForm.valid && this.selectedFile) {
       const formData = new FormData();
       formData.append('name', this.movieForm.value.name);

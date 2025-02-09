@@ -76,6 +76,20 @@
             <input type="text" class="form-control" id="txtDuration" placeholder="Ej: 120" formControlName="duration">
             <span class="input-group-text" id="basic-addon2">Minutos</span>
         </div>
+
+        <div class="mb-3">
+            <label for="divActors" class="form-label">Actores:</label>
+            <div formArrayName="actors" id="divActors">
+                <div *ngFor="let actor of actors.controls; let i = index" [formGroupName]="i">
+                    <input type="text" formControlName="actor" class="form-control" (input)="onActorChange(i)"
+                        placeholder="Ingrese el nombre del actor" />
+                </div>
+            </div>
+        </div>
+
+
+
+
         <button type="submit" class="btn btn-danger">Guardar
             Película</button>
 

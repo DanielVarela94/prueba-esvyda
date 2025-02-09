@@ -7,6 +7,7 @@ const router = express.Router();
 const GenreController = require('../controllers/genre');
 const MovieController = require('../controllers/movie');
 const ActorController = require('../controllers/actor');
+const MovieActorController = require('../controllers/movies_actors')
 
 const files = multer({ dest: './src/public/files/'});
 
@@ -28,6 +29,11 @@ router.get('/get-movies-by-genre/:genre', MovieController.getMoviesByGenre);
 router.get('/get-movies-by-date/:date', MovieController.getMoviesByDate);
 router.delete('/delete-movie/:id', MovieController.deleteMovie);
 router.post('/save-movie', files.single('image'), MovieController.saveMovie);
-router.patch('/update-movie/:id', files.single('image'), MovieController.updateMovie)
+router.patch('/update-movie/:id', files.single('image'), MovieController.updateMovie);
+
+//RUTAS TABLA INTRMEDIA PELICULAS Y ACTORES
+router.get('/get-relations', MovieActorController.getAllMoviesActors);
+router.get('/get-relation/:id', MovieActorController.getMovieActor);
+router.post('/save-relation', MovieActorController.saveNewMovieActor);
 
 module.exports = router;
