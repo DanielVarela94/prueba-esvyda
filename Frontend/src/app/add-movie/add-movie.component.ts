@@ -3,10 +3,13 @@ import { FormControl, FormGroup, FormBuilder } from '@angular/forms'
 import { SaveMovieService } from '../services/save-movie.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'add-movie',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, RouterModule],
   templateUrl: './add-movie.component.html',
   styleUrl: './add-movie.component.css'
 })
@@ -29,7 +32,7 @@ export class AddMovieComponent {
 
   selectedFile: File | null = null;
 
-  constructor(private fb: FormBuilder, private saveMovieService: SaveMovieService) {
+  constructor(private fb: FormBuilder, private saveMovieService: SaveMovieService, private router: Router) {
     this.movieForm = this.fb.group({
       name: [''],
       image: [''],
@@ -60,19 +63,18 @@ export class AddMovieComponent {
       formData.append('date', this.movieForm.value.date);
       formData.append('genre', this.movieForm.value.genre);
       formData.append('studio', this.movieForm.value.studio);
-      // formData.append('age', this.movieForm.value.age);
       const age = this.movieForm.value.age ? this.movieForm.value.age : 0;
       formData.append('age', age.toString());
-      //formData.append('qualification', this.movieForm.value.qualification);
       const qualification = this.movieForm.value.qualification ? this.movieForm.value.qualification : 0;
       formData.append('qualification', qualification.toString());
-      //formData.append('duration', this.movieForm.value.duration);
       const duration = this.movieForm.value.duration ? this.movieForm.value.duration : 0;
       formData.append('duration', duration.toString());
 
       this.saveMovieService.sendData(formData).subscribe(
         response => {
           console.log(`Pelicula guardada ${response}`);
+          alert('¡Película guardada exitosamente!');
+          this.router.navigate(['/']);
         }, error => {
           console.log(`ERROR: ${error}`);
         }
@@ -80,16 +82,5 @@ export class AddMovieComponent {
     } else {
       console.log('Formulario inválido o imagen no seleccionada');
     }
-
-    /*
-    if(this.movieForm.valid){
-      this.saveMovieService.sendData(this.movieForm.value).subscribe(
-        response => {
-          console.log(`Película guardada exitosamente: ${response}`)
-        }, error => {
-          console.log(`Error al guardar la película: ${error}`)
-        }
-      );
-    }*/
   }
 }
