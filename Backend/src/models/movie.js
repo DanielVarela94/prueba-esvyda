@@ -4,33 +4,34 @@ const { DataTypes } = require("sequelize");
 const db_export = require("../config/db");
 
 const Movie = db_export.db.define('Movie', {
-    name:{
+    name: {
         type: DataTypes.STRING
     },
-    image:{
+    image: {
         type: DataTypes.STRING
     },
-    synopsis:{
+    synopsis: {
         type: DataTypes.STRING
     },
-    date:{
-        type: DataTypes.DATE
+    date: {
+        type: DataTypes.STRING
     },
-    genre:{
+    genre: {
         type: DataTypes.INTEGER
     },
-    studio:{
+    studio: {
         type: DataTypes.STRING
     },
-    age:{
+    age: {
         type: DataTypes.INTEGER
     },
-    qualification:{
+    qualification: {
         type: DataTypes.INTEGER
     },
-    duration:{
+    duration: {
         type: DataTypes.INTEGER
     }
 });
+
 
 module.exports = Movie;

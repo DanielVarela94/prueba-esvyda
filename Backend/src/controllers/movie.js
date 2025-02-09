@@ -1,11 +1,14 @@
 const multer = require('multer');
 const Movie = require('../models/movie');
+const Actor = require('../models/actor');
 const fs = require('node:fs');
 const path = require('path');
 
 const controller = {
     getAllMovies: async (req, res) => {
-        const movies = await Movie.findAll();
+        const movies = await Movie.findAll({
+            include: [{ model: Actor, through: {attributes: []} }]
+        });
         if (movies.length > 0) {
             return res.status(200).send({
                 message: "Se ha encontrado una o más películas.",
@@ -26,7 +29,9 @@ const controller = {
 
     getMovieById: async (req, res) => {
         const id = req.params.id;
-        const movie = await Movie.findByPk(id);
+        const movie = await Movie.findByPk(id, {
+            include: [{ model: Actor, as: 'actors', through: {attributes: []} }]
+        });
         if (movie) {
             return res.status(200).send({
                 message: "Búsqueda de película exitosa",
@@ -96,16 +101,31 @@ const controller = {
     saveMovie: async (req, res) => {
         const movie = new Movie();
         try {
-            movie.name = req.body.name;
-            movie.image = saveImage(req.file, movie.name);
-            console.log(movie.image);
-            movie.synopsis = req.body.synopsis;
-            movie.date = date = req.body.date;
-            movie.genre = req.body.genre;
-            movie.studio = req.body.studio;
-            movie.age = req.body.age;
-            movie.qualification = req.body.qualification;
-            movie.duration = req.body.duration;
+            const {name, synopsis, date, genre, studio, age, qualification, duration, actors } = req.body;
+            const image = saveImage(req.file, name)
+            const movie = await Movie.create({name, image, synopsis, date, genre, studio, age, qualification, duration});
+            if(!movie){
+                return res.status(500).send({
+                    message: "Error al guardar la película."
+                })
+            }
+            if(actors && actors.length >0){
+                const actors_saved = JSON.parse(actors);
+                console.log(actors_saved);
+
+                const actorInstances = await Promise.all(
+                    actors_saved.map(async (name) => {
+                        const [actor] = await Actor.findOrCreate({
+                            where: {name: name.name},
+                            defaults: {name: name.name}
+                        });
+                        return actor.id;
+                    })
+                );
+                console.log(movie.__proto__);
+                await movie.addActors(actorInstances);
+            }
+
             await movie.save();
             return res.status(200).send({
                 message: `La película ${movie.name} ha sido guardada exitosamente`
@@ -114,7 +134,8 @@ const controller = {
         catch (error) {
             console.log(`Error al guardar la película. ${error}`);
             return res.status(500).send({
-                message: "Error al guardar la película."
+                message: "Error al guardar la película.", 
+                error: error
             });
         }
     },
@@ -124,9 +145,11 @@ const controller = {
         try {
             const movie = await Movie.findByPk(id);
             if (movie) {
-                fs.unlinkSync(movie.image);
+                if(req.file){
+                    fs.unlinkSync(movie.image);
+                    movie.image = saveImage(req.file, movie.name);
+                }
                 Object.assign(movie, data_update);
-                movie.image = saveImage(req.file, movie.name);
                 await movie.save();
                 return res.status(200).send({
                     message: "Película actualizada exitosamente.",
