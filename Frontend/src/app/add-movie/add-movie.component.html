@@ -1,1 +1,82 @@
-<p>add-movie works!</p>
+<div>
+    <form [formGroup]="movieForm" (ngSubmit)="sendForm()">
+        <div class="mb-3">
+            <label for="txtNameMovie" class="form-label">Nombre de la película:</label>
+            <input type="text" class="form-control" id="txtNameMovie" placeholder="Ingresa el nombre..."
+                formControlName="name">
+        </div>
+
+        <div class="input-group mb-3">
+            <input type="file" class="form-control" id="File" (change)="fileSelected($event)">
+        </div>
+
+        <div class="mb-3">
+            <label for="txtSynopsis" class="form-label">Synopsis:</label>
+            <textarea class="form-control" id="txtSynopsis" rows="3" placeholder="¿De qué se trata la película?"
+                formControlName="synopsis"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="txtDate" class="form-label">Fecha de lanzamiento:</label>
+            <input type="email" class="form-control" id="txtDate" placeholder="yyyy-mm-dd" formControlName="date">
+        </div>
+
+        <!-- <div class="input-group mb-3">
+            <button class="btn btn-danger dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">Género</button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" >Acción</a></li>
+                <li><a class="dropdown-item" >Aventura</a></li>
+                <li><a class="dropdown-item" >Ciencia Ficción</a></li>
+                <li><a class="dropdown-item" >Comedia</a></li>
+                <li><a class="dropdown-item" >Drama</a></li>
+                <li><a class="dropdown-item" >Fantasía</a></li>
+                <li><a class="dropdown-item" >Terror</a></li>
+                <li><a class="dropdown-item" >Suspenso</a></li>
+                <li><a class="dropdown-item" >Romance</a></li>
+                <li><a class="dropdown-item" >Musical</a></li>
+                <li><a class="dropdown-item" >Animación</a></li>
+                   <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Separated link</a></li>
+            </ul>
+                   <input type="text" class="form-control" aria-label="Text input with dropdown button"> 
+            </ul>
+        </div> -->
+
+        <select formControlName="genre" class="btn btn-danger dropdown-toggle">
+            <option value="" disabled selected>Género</option>
+            <option *ngFor="let genre of genres" [value]="genre.id">
+                {{ genre.name }}
+            </option>
+        </select>
+
+        <div class="mb-3">
+            <label for="txtStudio" class="form-label">Estudio de Grabación:</label>
+            <input type="email" class="form-control" id="txtStudio" placeholder="Ingresa el estudio..."
+                formControlName="studio">
+        </div>
+
+        <div class="input-group mb-3">
+            <label for="txtAge" class="form-label">Edad mínima recomendada:</label>
+            <input type="text" class="form-control" placeholder="Ej: 18" aria-label="Recipient's username"
+                aria-describedby="basic-addon2" id="txtAge" formControlName="age">
+            <span class="input-group-text" id="basic-addon2">Años</span>
+        </div>
+
+        <div class="mb-3">
+            <label for="txtQualification" class="form-label">Calificación:</label>
+            <input type="email" class="form-control" id="txtQualification" placeholder="Ingresa un número del 1 al 5."
+                formControlName="qualification">
+        </div>
+
+        <div class="mb-3">
+            <label for="txtDuration" class="form-label">Duración:</label>
+            <input type="text" class="form-control" id="txtDuration" placeholder="Ej: 120" formControlName="duration">
+            <span class="input-group-text" id="basic-addon2">Minutos</span>
+        </div>
+        <button type="submit" class="btn btn-danger">Guardar Película</button>
+
+    </form>
+</div>
