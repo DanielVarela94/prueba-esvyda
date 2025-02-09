@@ -3,13 +3,13 @@
         <div class="col " *ngFor="let movie of movies$ | async">
             <div class="card m-2" style="width: 18rem;" >
                 <img class="card-img-top" *ngIf="movie.image" [src]="'http://localhost:3000/files/' + movie.name + '.jpg'"
-                    alt="{{ movie.name }}" width="200">
+                    alt="{{ movie.name }}" width="200" height="">
                 <div class="card-body">
                     <h5 class="card-title">{{ movie.name }}</h5>
                     <p class="card-text"><strong>Duración:</strong> {{ movie.duration }} min</p>
     
                     <div class="d-flex justify-content-between">
-                        <a href="#" class="btn btn-danger">Ver más</a>
+                        <a [routerLink]="['/movie-details', movie.id]" routerLinkActive="router-link-active"  class="btn btn-danger">Ver más</a>
                         <div class="btn-group dropup">
                             <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown"
                                 aria-expanded="false">
