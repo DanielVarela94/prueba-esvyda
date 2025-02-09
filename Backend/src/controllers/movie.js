@@ -30,7 +30,7 @@ const controller = {
     getMovieById: async (req, res) => {
         const id = req.params.id;
         const movie = await Movie.findByPk(id, {
-            include: [{ model: Actor, as: 'actors', through: {attributes: []} }]
+            include: [{ model: Actor, through: {attributes: []} }]
         });
         if (movie) {
             return res.status(200).send({

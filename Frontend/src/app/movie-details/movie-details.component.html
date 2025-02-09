@@ -1,48 +1,47 @@
-<!--<div class="container">
+<div class="container">
   <div class="row">
-      <div class="col-5 m-2" *ngFor="let movie of movies$ | async">
-          <div class="card">
-              <img src="..." class="card-img-top" style="height: 400px;" *ngIf="movie.image"
-                  [src]="'http://localhost:3000/files/' + movie.name + '.jpg'" alt="{{ movie.name }}">
-              <div class="card-body">
-                  <div class="d-flex justify-content-between">
-                      <h5 class="card-title">{{ movie.name }}</h5>
-                      <a [routerLink]="['/', movie.id]" routerLinkActive="router-link-active"
-                          class="btn btn-outline-danger">{{movie.genre}}</a>
-                  </div>
+    <div class="col-5 m-2" *ngIf="movie$ | async as movie">
+      <div class="card">
+        <img src="..." class="card-img-top" style="height: 400px;" *ngIf="movie.image"
+          [src]="'http://localhost:3000/files/' + movie.name + '.jpg'" alt="{{ movie.name }}">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <h5 class="card-title">{{ movie.name }}</h5>
+            <a [routerLink]="['/', movie.id]" routerLinkActive="router-link-active"
+              class="btn btn-outline-danger">{{movie.genre}}</a>
+          </div>
 
-                  <p class="card-text">{{movie.synopsis}}</p>
-              </div>
-              <ul class="list-group list-group-flush">
-                  <li class="list-group-item">
-                      <div class="d-flex justify-content-between">
-                          <div class="stars">
-                              <i *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" class="bi" [ngClass]="{
+          <p class="card-text">{{movie.synopsis}}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="d-flex justify-content-between">
+              <div class="stars">
+                <i *ngFor="let star of [1, 2, 3, 4, 5]; let i = index" class="bi" [ngClass]="{
                                     'bi-star-fill': i < movie.qualification,
                                     'bi-star-half': i === movie.qualification && movie.qualification % 1 !== 0,
                                     'bi-star': i >= movie.qualification
                                  }">
-                              </i>
-                          </div>
-                          <div>
-                              <p>{{movie.date}}</p>
-                          </div>
-                      </div>
-
-                  </li>
-                  <li class="list-group-item">{{movie.studio}}</li>
-                  <li class="list-group-item">+{{movie.age}} Años</li>
-                  <li class="list-group-item">{{movie.duration}} Min</li>
-              </ul>
-              <div class="card-body">
-                  <a [routerLink]="['/movie-details', movie.id]" routerLinkActive="router-link-active"
-                      class="btn btn-danger">Editar</a>
-                  <a [routerLink]="['/movie-details', movie.id]" routerLinkActive="router-link-active"
-                      class="btn btn-danger">Eliminar</a>
+                </i>
               </div>
-          </div>
+              <div>
+                <p>{{movie.date}}</p>
+              </div>
+            </div>
+
+          </li>
+          <li class="list-group-item">{{movie.studio}}</li>
+          <li class="list-group-item">+{{movie.age}} Años</li>
+          <li class="list-group-item">{{movie.duration}} Min</li>
+        </ul>
+        <div class="card-body">
+          <a [routerLink]="['/movie-details', movie.id]" routerLinkActive="router-link-active"
+            class="btn btn-danger">Editar</a>
+          <a [routerLink]="['/movie-details', movie.id]" routerLinkActive="router-link-active"
+            class="btn btn-danger">Eliminar</a>
+        </div>
       </div>
+    </div>
 
   </div>
 </div>
--->
