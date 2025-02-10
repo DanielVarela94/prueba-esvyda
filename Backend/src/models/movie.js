@@ -2,6 +2,7 @@
 
 const { DataTypes } = require("sequelize");
 const db_export = require("../config/db");
+const Genre = require('./genre');
 
 const Movie = db_export.db.define('Movie', {
     name: {
@@ -33,5 +34,7 @@ const Movie = db_export.db.define('Movie', {
     }
 });
 
+Genre.hasMany(Movie, { foreignKey: 'genre'});
+Movie.belongsTo(Genre, { foreignKey: 'genre'});
 
 module.exports = Movie;

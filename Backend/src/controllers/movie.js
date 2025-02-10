@@ -3,6 +3,7 @@ const Movie = require('../models/movie');
 const Actor = require('../models/actor');
 const fs = require('node:fs');
 const path = require('path');
+const Genre = require('../models/genre');
 
 const controller = {
     getAllMovies: async (req, res) => {
@@ -30,7 +31,7 @@ const controller = {
     getMovieById: async (req, res) => {
         const id = req.params.id;
         const movie = await Movie.findByPk(id, {
-            include: [{ model: Actor, through: {attributes: []} }]
+            include: [{ model: Actor, through: {attributes: []} }, {model: Genre, attributes:['name']}]
         });
         if (movie) {
             return res.status(200).send({

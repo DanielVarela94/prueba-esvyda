@@ -26,8 +26,8 @@
           </li>
         </ul>
         <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Id" aria-label="Search">
-          <button class="btn btn-outline-light" type="submit">Buscar</button>
+          <input class="form-control me-2" type="number" name="id" placeholder="Ingresa un ID..." aria-label="Search" [(ngModel)] = "id">
+          <button class="btn btn-outline-light" type="button" [routerLink]="['/movie-details/', id]">Buscar</button>
         </form>
       </div>
     </div>
