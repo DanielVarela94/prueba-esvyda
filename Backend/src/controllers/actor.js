@@ -19,11 +19,11 @@ var controller = {
     saveNewActor: async (req, res) => {
         const actor = new Actor();
         try {
-            actor.name = req.body.name;
+            actor.actor = req.body.name;
             await actor.save();
             return res.status(200).send({
                 message: "El actor se ha guardado con éxito",
-                actor: actor.name
+                actor: actor.actor
             });
         } catch (error) {
             console.log(`Error al guardar el actor: ${error}`);

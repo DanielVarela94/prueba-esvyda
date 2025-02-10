@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, switchMap } from 'rxjs';
 import { map } from 'rxjs';
@@ -12,7 +12,7 @@ interface Genre {
 }
 interface Actor {
   id: number;
-  name: string;
+  actor: string;
 }
 
 interface Movie {
@@ -47,12 +47,28 @@ export class MovieDetailsComponent {
   constructor(
     private http: HttpClient, 
     private route: ActivatedRoute,
-    private allMoviesService: AllmoviesService
+    private allMoviesService: AllmoviesService,
+    private router: Router
   ) {
     const id = Number(this.route.snapshot.params['id']);
 
     this.movie$ = this.allMoviesService.getMovie(id).pipe(
       map(response =>  response.movie)
     );
+  }
+
+  deleteMovie(movieId: number) {
+    if (confirm('¿Estás seguro de que deseas eliminar esta película?')) {
+      console.log(movieId);
+      this.allMoviesService.deleteMovie(movieId).subscribe({
+        next: () => {
+          alert('Película eliminada correctamente');
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          console.error('Error eliminando película', err);
+        }
+      });
+    }
   }
 }

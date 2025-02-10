@@ -4,11 +4,13 @@ const Actor = require('../models/actor');
 const fs = require('node:fs');
 const path = require('path');
 const Genre = require('../models/genre');
+const Movies_Actors = require('../models/movies_actors');
+const sequelize = require('sequelize');
 
 const controller = {
     getAllMovies: async (req, res) => {
         const movies = await Movie.findAll({
-            include: [{ model: Actor, through: {attributes: []} }]
+            include: [{ model: Actor, through: { attributes: [] } }]
         });
         if (movies.length > 0) {
             return res.status(200).send({
@@ -31,7 +33,7 @@ const controller = {
     getMovieById: async (req, res) => {
         const id = req.params.id;
         const movie = await Movie.findByPk(id, {
-            include: [{ model: Actor, through: {attributes: []} }, {model: Genre, attributes:['name']}]
+            include: [{ model: Actor, through: { attributes: [] } }, { model: Genre, attributes: ['name'] }]
         });
         if (movie) {
             return res.status(200).send({
@@ -84,17 +86,45 @@ const controller = {
     },
 
     deleteMovie: async (req, res) => {
-        const id = req.params.id;
-        const movie = await Movie.findByPk(id);
-        if (movie) {
-            fs.unlinkSync(movie.image);
-            await movie.destroy();
-            return res.status(200).send({
-                message: `La película ha sido eliminada`
+        try {
+            const id = req.params.id;
+            const actors_in_movie = await Movies_Actors.findAll({
+                where: {
+                    idmovies: id
+                },
+                attributes: ['idactors'],
+                raw: true
+            })
+            const actorIds = actors_in_movie.map(actor => actor.actorid);
+            if (actorIds.length > 0) {
+                const actorMovieCounts = await Movies_Actors.findAll({
+                    where: { idactors: actorIds }, 
+                    attributes: ['idactors', [sequelize.fn('COUNT', sequelize.col('idmovies')), 'count']],
+                    group: ['idactors'],
+                    raw: true
+                });
+                const actorsToDelete = actorMovieCounts
+                    .filter(actor => actor.count === 1)
+                    .map(actor => actor.idactors);
+                if (actorsToDelete.length > 0) {
+                    await Actor.destroy({ where: { id: actorsToDelete } });
+                }
+            }
+            await Movies_Actors.destroy({
+                where: {
+                    idmovies: id
+                }
             });
-        } else {
+            await Movie.destroy({
+                where: {
+                    id
+                }
+            });
+
+        } catch (error) {
+            console.log(error);
             return res.status(404).send({
-                message: `La película con id: ${id} no ha sido encontrada.`
+                message: `error al borrar la película`
             });
         }
     },
@@ -102,28 +132,27 @@ const controller = {
     saveMovie: async (req, res) => {
         const movie = new Movie();
         try {
-            const {name, synopsis, date, genre, studio, age, qualification, duration, actors } = req.body;
+            const { name, synopsis, date, genre, studio, age, qualification, duration, actors } = req.body;
             const image = saveImage(req.file, name)
-            const movie = await Movie.create({name, image, synopsis, date, genre, studio, age, qualification, duration});
-            if(!movie){
+            const movie = await Movie.create({ name, image, synopsis, date, genre, studio, age, qualification, duration });
+            if (!movie) {
                 return res.status(500).send({
                     message: "Error al guardar la película."
                 })
             }
-            if(actors && actors.length >0){
+            if (actors && actors.length > 0) {
                 const actors_saved = JSON.parse(actors);
                 console.log(actors_saved);
-
+                console.log("si entra a esta condicion")
                 const actorInstances = await Promise.all(
                     actors_saved.map(async (name) => {
                         const [actor] = await Actor.findOrCreate({
-                            where: {name: name.name},
-                            defaults: {name: name.name}
+                            where: { actor: name.actor },
+                            defaults: { actor: name.actor }
                         });
                         return actor.id;
                     })
                 );
-                console.log(movie.__proto__);
                 await movie.addActors(actorInstances);
             }
 
@@ -135,7 +164,7 @@ const controller = {
         catch (error) {
             console.log(`Error al guardar la película. ${error}`);
             return res.status(500).send({
-                message: "Error al guardar la película.", 
+                message: "Error al guardar la película.",
                 error: error
             });
         }
@@ -146,7 +175,7 @@ const controller = {
         try {
             const movie = await Movie.findByPk(id);
             if (movie) {
-                if(req.file){
+                if (req.file) {
                     fs.unlinkSync(movie.image);
                     movie.image = saveImage(req.file, movie.name);
                 }
