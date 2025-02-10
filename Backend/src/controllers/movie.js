@@ -120,6 +120,9 @@ const controller = {
                     id
                 }
             });
+            return res.status(200).send({
+                message: "La película ha sido eliminada de manera exitosa."
+            })
 
         } catch (error) {
             console.log(error);

@@ -77,6 +77,7 @@ export class MovieDetailsComponent {
       this.allMoviesService.deleteMovie(movieId).subscribe({
         next: () => {
           alert('Película eliminada correctamente');
+          console.log('Redirigiendo a página principal')
           this.router.navigate(['/']);
         },
         error: (err) => {
