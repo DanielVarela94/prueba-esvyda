@@ -15,4 +15,9 @@ export class AllmoviesService {
   getMovie(id:number): Observable<any>{
     return this._http.get(`http://localhost:3000/get-movie/${id}`)
   }
+
+  getMoviesGenre(id:number): Observable<any>{
+    return this._http.get(`http://localhost:3000/get-movies-genre/${id}`)
+  }
+
 }

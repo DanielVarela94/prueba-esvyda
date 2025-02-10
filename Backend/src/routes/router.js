@@ -12,7 +12,7 @@ const MovieActorController = require('../controllers/movies_actors')
 const files = multer({ dest: './src/public/files/'});
 
 //RUTAS GENERO
-router.get('/get-genre/:id', GenreController.getGenre);
+router.get('/get-movies-genre/:id', GenreController.getMoviesGenre);
 router.get('/get-genres', GenreController.getAllGenres);
 router.post('/save-genre', GenreController.saveNewGenre);
 

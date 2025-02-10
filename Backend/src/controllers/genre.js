@@ -1,5 +1,6 @@
 'use strict'
-var Genre = require('../models/genre')
+var Genre = require('../models/genre');
+var Movie = require('../models/movie');
 
 var controller = {
     getAllGenres: async (req, res) => {
@@ -34,13 +35,18 @@ var controller = {
         }
     },
 
-    getGenre: async (req, res) => {
+    getMoviesGenre: async (req, res) => {
         const id = req.params.id;
-        const genre = await Genre.findByPk(id);
-        if (genre) {
+        const movie = await Movie.findAll({
+            where: {genre: id},
+            include: {
+                model: Genre,
+            }
+        });
+        if (movie) {
             return res.status(200).send({
-                message: "Género encontrado",
-                genre: genre
+                message: "Películas encontradas para el género buscado.",
+                movie: movie
             });
         } else {
             return res.status(404).send({

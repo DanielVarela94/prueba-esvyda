@@ -10,6 +10,11 @@ import { MoviesSuggestionsComponent } from "../movies-suggestions/movies-suggest
 interface Genre {
   name: string;
 }
+interface Actor {
+  id: number;
+  name: string;
+}
+
 interface Movie {
   id: number;
   name: string;
@@ -21,8 +26,7 @@ interface Movie {
   age: number;
   qualification: number;
   duration: number;
-  createdAt: string;
-  updatedAt: string;
+  Actors: [Actor];
 }
 
 interface BackendResponse {
