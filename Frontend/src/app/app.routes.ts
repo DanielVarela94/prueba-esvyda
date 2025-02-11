@@ -19,5 +19,6 @@ export const routes: Routes = [
     {path: 'search-id', component: SearchIdComponent},
     {path: 'search-qualification', component: SearchQualificationComponent},
     {path: 'movie-details/:id', component: MovieDetailsComponent, title: 'Detalles de Película'},
-    {path: 'search-movies-genre/:id', component:SearchGenreComponent}
+    {path: 'search-movies-genre/:id', component:SearchGenreComponent},
+    {path: 'search-qualification/:id', component: SearchQualificationComponent}
 ];

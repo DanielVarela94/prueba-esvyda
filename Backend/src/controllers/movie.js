@@ -203,6 +203,27 @@ const controller = {
                 message: "Ha ocurrido un error al actualizar la película."
             });
         }
+    },
+
+    getMoviesByQualification: async (req, res) => {
+        const qualification = req.params.qualification;
+        const movies = await Movie.findAll({
+            include: [{ model: Actor, through: { attributes: [] } }, { model: Genre, attributes: ['name'] }],
+            where: {
+                qualification: qualification
+            }
+        });
+        if (movies.length > 0) {
+            console.log(movies);
+            return res.status(200).send({
+                message: `Se han encontrado una o más películas con calificación de ${qualification} estrellas`,
+                movies: movies
+            })
+        } else {
+            return res.status(404).send({
+                message: `No existen películas con calificación ${qualification}`
+            })
+        }
     }
 };
 

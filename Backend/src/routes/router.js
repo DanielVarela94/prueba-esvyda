@@ -31,6 +31,9 @@ router.delete('/delete-movie/:id', MovieController.deleteMovie);
 router.post('/save-movie', files.single('image'), MovieController.saveMovie);
 router.patch('/update-movie/:id', files.single('image'), MovieController.updateMovie);
 
+//RUTA CALIFICACION
+router.get('/get-movies-qualification/:qualification', MovieController.getMoviesByQualification);
+
 //RUTAS TABLA INTRMEDIA PELICULAS Y ACTORES
 router.get('/get-relations', MovieActorController.getAllMoviesActors);
 router.get('/get-relation/:id', MovieActorController.getMovieActor);

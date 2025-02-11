@@ -24,4 +24,8 @@ export class AllmoviesService {
     return this._http.delete(`http://localhost:3000/delete-movie/${id}`)
   }
 
+  getMoviesQualification(id:number): Observable<any> {
+    return this._http.get(`http://localhost:3000/get-movies-qualification/${id}`)
+  }
+
 }
