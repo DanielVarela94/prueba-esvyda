@@ -11,7 +11,7 @@ interface Genre {
 }
 interface Actor {
   id: number;
-  name: string;
+  actor: string;
 }
 
 interface Movie {
@@ -83,6 +83,22 @@ export class SearchGenreComponent {
 
     if (selectedGenreId) {
       this.router.navigate(['/search-movies-genre/', selectedGenreId]);
+    }
+  }
+
+  deleteMovie(movieId: number) {
+    if (confirm('¿Estás seguro de que deseas eliminar esta película?')) {
+      console.log(movieId);
+      this.allMoviesService.deleteMovie(movieId).subscribe({
+        next: () => {
+          alert('Película eliminada correctamente');
+          console.log('Redirigiendo a página principal')
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          console.error('Error eliminando película', err);
+        }
+      });
     }
   }
 }

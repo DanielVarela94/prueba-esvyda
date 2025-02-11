@@ -6,6 +6,8 @@ import { map } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { AllmoviesService } from '../services/allmovies.service';
+import { Router } from '@angular/router';
 
 interface Movie {
   id: number;
@@ -35,9 +37,25 @@ interface BackendResponse {
 export class ListMoviesComponent {
 movies$: Observable<Movie[]>;
 
-  constructor(private http: HttpClient){
+  constructor(private http: HttpClient, private allMovieService: AllmoviesService, private router: Router){
     this.movies$ = this.http.get<BackendResponse>('http://localhost:3000/get-movies').pipe(
       map((response) => response.movies)
     )
+  }
+
+  deleteMovie(movieId: number) {
+    if (confirm('¿Estás seguro de que deseas eliminar esta película?')) {
+      console.log(movieId);
+      this.allMovieService.deleteMovie(movieId).subscribe({
+        next: () => {
+          alert('Película eliminada correctamente');
+          console.log('Redirigiendo a página principal')
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          console.error('Error eliminando película', err);
+        }
+      });
+    }
   }
 }

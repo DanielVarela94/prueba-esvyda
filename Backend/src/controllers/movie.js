@@ -50,11 +50,13 @@ const controller = {
     getMoviesByGenre: async (req, res) => {
         const genre = req.params.genre;
         const movies = await Movie.findAll({
+            include: [{ model: Actor, through: { attributes: ['actor'] } }],
             where: {
                 genre: genre
             }
         });
         if (movies.length > 0) {
+            console.log(movies);
             return res.status(200).send({
                 message: `Se han encontrado una o más películas que pertenecen al género ${genre}`,
                 movies: movies
