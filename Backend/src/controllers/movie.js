@@ -98,27 +98,44 @@ const controller = {
                 },
                 attributes: ['idactors'],
                 raw: true
-            })
-            const actorIds = actors_in_movie.map(actor => actor.actorid);
+            });
+            const actorIds = actors_in_movie.map(actor => actor.idactors);
             if (actorIds.length > 0) {
                 const actorMovieCounts = await Movies_Actors.findAll({
-                    where: { idactors: actorIds }, 
+                    where: { idactors: actorIds },
                     attributes: ['idactors', [sequelize.fn('COUNT', sequelize.col('idmovies')), 'count']],
                     group: ['idactors'],
                     raw: true
                 });
+
+                for (let amc of actorMovieCounts) {
+                    console.log(`actorMovieCounts: actor: ${amc.idactors} // contador: ${amc.count}`);
+                }
+
                 const actorsToDelete = actorMovieCounts
-                    .filter(actor => actor.count === 1)
+                    .filter(actor => {
+                        console.log(actor);
+                        return actor.count === 1
+                    })
                     .map(actor => actor.idactors);
+
+                for (let atd of actorsToDelete) {
+                    console.log(atd);
+                    console.log(`actorsToDelete: actor: ${atd.idactors} // contador: ${atd.count} // ${atd.status}`);
+                }
+
                 if (actorsToDelete.length > 0) {
-                    await Actor.destroy({ where: { id: actorsToDelete } });
+                    await Movies_Actors.destroy({
+                        where: {
+                            idmovies: id
+                        }
+                    });
+                    for (let a of actorsToDelete) {
+                        await Actor.destroy({ where: { id: a } });
+                    }
                 }
             }
-            await Movies_Actors.destroy({
-                where: {
-                    idmovies: id
-                }
-            });
+
             await Movie.destroy({
                 where: {
                     id
@@ -131,7 +148,8 @@ const controller = {
         } catch (error) {
             console.log(error);
             return res.status(404).send({
-                message: `error al borrar la película`
+                message: "error al borrar la película",
+
             });
         }
     },

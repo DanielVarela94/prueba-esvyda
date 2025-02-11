@@ -75,9 +75,10 @@ export class MovieDetailsComponent {
     if (confirm('¿Estás seguro de que deseas eliminar esta película?')) {
       console.log(movieId);
       this.allMoviesService.deleteMovie(movieId).subscribe({
-        next: () => {
+        next: (response) => {
           alert('Película eliminada correctamente');
-          console.log('Redirigiendo a página principal')
+          console.log('Redirigiendo a página principal');
+          console.log(response);
           this.router.navigate(['/']);
         },
         error: (err) => {
