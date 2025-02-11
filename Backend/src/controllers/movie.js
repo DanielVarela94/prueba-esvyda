@@ -70,9 +70,11 @@ const controller = {
 
     getMoviesByDate: async (req, res) => {
         const date = req.params.date;
+        console.log(date);
         const movies = await Movie.findAll({
+            include: [{ model: Actor, through: { attributes: [] } }, { model: Genre, attributes: ['name'] }],
             where: {
-                createdAt: date
+                date: date
             }
         });
         if (movies.length > 0) {

@@ -34,6 +34,9 @@ router.patch('/update-movie/:id', files.single('image'), MovieController.updateM
 //RUTA CALIFICACION
 router.get('/get-movies-qualification/:qualification', MovieController.getMoviesByQualification);
 
+//RUTA BUSQUEDA POR FECHA
+router.get('/get-movies-date/:date', MovieController.getMoviesByDate);
+
 //RUTAS TABLA INTRMEDIA PELICULAS Y ACTORES
 router.get('/get-relations', MovieActorController.getAllMoviesActors);
 router.get('/get-relation/:id', MovieActorController.getMovieActor);

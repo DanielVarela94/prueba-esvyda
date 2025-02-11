@@ -94,6 +94,7 @@ export class SearchQualificationComponent {
 
   searchId(genre: string){
     const id = this.genres.find(g => g.name === genre);
+    console.log(id);
     return id? id.id : undefined
   }
 }

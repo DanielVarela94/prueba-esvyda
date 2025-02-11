@@ -37,8 +37,8 @@
         </ul>
         <div class="card-body d-flex justify-content-between">
           <a [routerLink]="['/movie-details', movie.id]" routerLinkActive="router-link-active"
-            class="btn btn-danger">Editar</a>
-          <a class="btn btn-danger" (click)="deleteMovie(movie.id)">Eliminar</a>
+            class="btn btn-danger"><i class="bi bi-pencil"></i> Editar</a>
+          <a class="btn btn-danger" (click)="deleteMovie(movie.id)"><i class="bi bi-trash"></i> Eliminar</a>
         </div>
       </div>
     </div>

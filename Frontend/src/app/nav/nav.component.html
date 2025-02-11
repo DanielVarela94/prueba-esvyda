@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
     <div class="container-fluid">
-      <a class="navbar-brand" [routerLink]="['/']" routerLinkActive="router-link-active" >Inicio</a>
+      <a class="navbar-brand" [routerLink]="['/']" routerLinkActive="router-link-active" ><i class="bi bi-house"></i></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -27,7 +27,7 @@
         </ul>
         <form class="d-flex">
           <input class="form-control me-2" type="number" name="id" placeholder="Ingresa un ID..." aria-label="Search" [(ngModel)] = "id">
-          <button class="btn btn-outline-light" type="button" [routerLink]="['/movie-details/', id]">Buscar</button>
+          <button class="btn btn-outline-light" type="button" [routerLink]="['/movie-details/', id]"><i class="bi bi-search"></i></button>
         </form>
       </div>
     </div>

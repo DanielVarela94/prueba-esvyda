@@ -28,4 +28,7 @@ export class AllmoviesService {
     return this._http.get(`http://localhost:3000/get-movies-qualification/${id}`)
   }
 
+  getMoviesDate (date:string): Observable<any> {
+    return this._http.get(`http://localhost:3000/get-movies-date/${date}`)
+  }
 }
