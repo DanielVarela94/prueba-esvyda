@@ -135,14 +135,16 @@ const controller = {
     saveMovie: async (req, res) => {
         const movie = new Movie();
         try {
-            const { name, synopsis, date, genre, studio, age, qualification, duration, actors } = req.body;
-            const image = saveImage(req.file, name)
+            const { name, synopsis, date, genre, studio, age, qualification, duration } = req.body;
+            const image = saveImage(req.file, name);
+            const actors = req.body.actors;
             const movie = await Movie.create({ name, image, synopsis, date, genre, studio, age, qualification, duration });
             if (!movie) {
                 return res.status(500).send({
                     message: "Error al guardar la película."
                 })
             }
+            console.log(actors);
             if (actors && actors.length > 0) {
                 const actors_saved = JSON.parse(actors);
                 console.log(actors_saved);
@@ -153,6 +155,7 @@ const controller = {
                             where: { actor: name.actor },
                             defaults: { actor: name.actor }
                         });
+                        console.log(actor);
                         return actor.id;
                     })
                 );
