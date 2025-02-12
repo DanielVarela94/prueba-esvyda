@@ -91,7 +91,7 @@ export class SearchDateComponent {
   searchGenre(genre: string) {
     const idsearch = this.searchId(genre);
     console.log(idsearch);
-    this.router.navigate(['search-movies-genre/', idsearch]);
+    this.router.navigate(['search-movies-actor/', idsearch]);
   }
 
   searchId(genre: string) {

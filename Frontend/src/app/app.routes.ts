@@ -21,5 +21,6 @@ export const routes: Routes = [
     {path: 'movie-details/:id', component: MovieDetailsComponent, title: 'Detalles de Película'},
     {path: 'search-movies-genre/:id', component:SearchGenreComponent},
     {path: 'search-qualification/:id', component: SearchQualificationComponent},
-    {path: 'search-date/:date', component: SearchDateComponent}
+    {path: 'search-date/:date', component: SearchDateComponent},
+    {path: 'search-movies-actor/:actor', component: SearchActorComponent}
 ];
