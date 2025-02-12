@@ -37,6 +37,9 @@ router.get('/get-movies-qualification/:qualification', MovieController.getMovies
 //RUTA BUSQUEDA POR FECHA
 router.get('/get-movies-date/:date', MovieController.getMoviesByDate);
 
+//BUSQUEDA POR ACTOR
+router.get('/get-movies-actor/:actor', MovieController.getMoviesByActor);
+
 //RUTAS TABLA INTRMEDIA PELICULAS Y ACTORES
 router.get('/get-relations', MovieActorController.getAllMoviesActors);
 router.get('/get-relation/:id', MovieActorController.getMovieActor);

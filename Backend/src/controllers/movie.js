@@ -246,6 +246,35 @@ const controller = {
                 message: `No existen películas con calificación ${qualification}`
             })
         }
+    },
+
+    getMoviesByActor: async (req, res) => {
+        const actor = req.params.actor;
+        const actor_find = await Actor.findOne({
+            where: {
+                actor: actor
+            },
+            attributes: ['id']
+        })
+        const id = actor_find.id;
+        const actor_movies = await Movies_Actors.findAll({
+            where: {
+                idactors: id
+            },
+            attributes: ['idmovies'],
+            raw: true
+        });
+        const movies = await Movie.findAll({
+            include: [{ model: Actor, through: { attributes: [] } }, { model: Genre, attributes: ['name'] }],
+            where:{
+                id: actor_movies.map(a => a.idmovies)
+            }
+        })
+        console.log(movies);
+        return res.status(200).send({
+            message: `Hemos encontrado una o más películas donde actúa ${actor}`,
+            movies: movies
+        });
     }
 };
 
