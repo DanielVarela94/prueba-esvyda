@@ -98,4 +98,10 @@ export class MovieDetailsComponent {
     const id = this.genres.find(g => g.name === genre);
     return id? id.id : undefined
   }
+
+  edit(id:number){
+    if(id){
+      this.router.navigate(["edit-movie/", id]);
+    }
+  }
 }

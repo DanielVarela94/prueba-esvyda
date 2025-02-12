@@ -58,4 +58,10 @@ movies$: Observable<Movie[]>;
       });
     }
   }
+
+  edit(id:number){
+    if(id){
+      this.router.navigate(["edit-movie/", id]);
+    }
+  }
 }

@@ -200,6 +200,7 @@ const controller = {
     updateMovie: async (req, res) => {
         const id = req.params.id;
         const data_update = req.body;
+        console.log(data_update);
         try {
             const movie = await Movie.findByPk(id);
             if (movie) {

@@ -8,6 +8,7 @@ import { SearchGenreComponent } from './search-genre/search-genre.component';
 import { SearchIdComponent } from './search-id/search-id.component';
 import { SearchQualificationComponent } from './search-qualification/search-qualification.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
+import { EditMovieComponent } from './edit-movie/edit-movie.component';
 
 export const routes: Routes = [
     {path: '', component: MainMoviesComponent},
@@ -22,5 +23,6 @@ export const routes: Routes = [
     {path: 'search-movies-genre/:id', component:SearchGenreComponent},
     {path: 'search-qualification/:id', component: SearchQualificationComponent},
     {path: 'search-date/:date', component: SearchDateComponent},
-    {path: 'search-movies-actor/:actor', component: SearchActorComponent}
+    {path: 'search-movies-actor/:actor', component: SearchActorComponent},
+    {path: 'edit-movie/:id', component: EditMovieComponent}
 ];

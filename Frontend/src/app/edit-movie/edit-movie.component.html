@@ -1,12 +1,14 @@
-<div class=" w-50">
+<div class="w-50">
     <form [formGroup]="movieForm" (ngSubmit)="sendForm()">
         <div class="mb-3">
             <label for="txtNameMovie" class="form-label">Nombre de la película:</label>
             <input type="text" class="form-control" id="txtNameMovie" placeholder="Ingresa el nombre..."
-                formControlName="name">
+                formControlName="name" >
         </div>
 
         <div class="input-group mb-3">
+            <label for="txtNameMovie" class="form-label">Imagen actual:</label>
+            <img [src]=srcImage class="card-img-top" style="height: 400px;">
             <input type="file" class="form-control" id="File" (change)="fileSelected($event)">
         </div>
 
@@ -20,6 +22,7 @@
             <label for="txtDate" class="form-label">Fecha de lanzamiento:</label>
             <input type="email" class="form-control" id="txtDate" placeholder="yyyy-mm-dd" formControlName="date">
         </div>
+
         <select formControlName="genre" class="btn btn-danger dropdown-toggle">
             <option value="" disabled selected>Género</option>
             <option *ngFor="let genre of genres" [value]="genre.id">
@@ -61,12 +64,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-        <button type="submit" class="btn btn-danger">Guardar
-            Película</button>
-
+        <button type="submit" class="btn btn-danger">Actualizar Película</button>
     </form>
-</div>
+</div> 
