@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, switchMap } from 'rxjs';
@@ -33,8 +33,6 @@ interface BackendResponse {
   message: string;
   movie: Movie;
 }
-
-
 @Component({
   selector: 'app-movie-details',
   standalone: true,
@@ -57,6 +55,8 @@ export class MovieDetailsComponent {
     { id: 10, name: 'Musical' },
     { id: 11, name: 'Animación' }
   ];
+  id!: number;
+  id_to_suggestions = signal(0);
 
   constructor(
     private http: HttpClient, 
@@ -64,12 +64,13 @@ export class MovieDetailsComponent {
     private allMoviesService: AllmoviesService,
     private router: Router
   ) {
-    const id = Number(this.route.snapshot.params['id']);
+    this.id = Number(this.route.snapshot.params['id']);
 
-    this.movie$ = this.allMoviesService.getMovie(id).pipe(
+    this.movie$ = this.allMoviesService.getMovie(this.id).pipe(
       map(response =>  response.movie)
     );
   }
+
 
   deleteMovie(movieId: number) {
     if (confirm('¿Estás seguro de que deseas eliminar esta película?')) {
@@ -95,8 +96,8 @@ export class MovieDetailsComponent {
   }
 
   searchId(genre: string){
-    const id = this.genres.find(g => g.name === genre);
-    return id? id.id : undefined
+    const idd = this.genres.find(g => g.name === genre);
+    return idd? idd.id : undefined
   }
 
   edit(id:number){

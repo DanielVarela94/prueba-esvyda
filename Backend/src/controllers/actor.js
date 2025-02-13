@@ -1,13 +1,11 @@
 'use strict'
 var Actor = require('../models/actor')
-
 var controller = {
     getAllActors: async (req, res) => {
         const actors = await Actor.findAll();
-        if (actors.length > 0 ) {
+        if (actors.length > 0) {
             return res.status(200).send({
-                message: "Se ha encontrado uno o más actores.",
-                actors: actors
+                message: "Se ha encontrado uno o más actores.", actors: actors
             });
         } else {
             return res.status(404).send({

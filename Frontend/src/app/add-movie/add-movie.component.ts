@@ -86,10 +86,8 @@ export class AddMovieComponent {
       formData.append('qualification', qualification.toString());
       const duration = this.movieForm.value.duration ? this.movieForm.value.duration : 0;
       formData.append('duration', duration.toString());
-
       const actors = this.movieForm.value.actors || [];
       formData.append('actors', JSON.stringify(actors));
-
       this.saveMovieService.sendData(formData).subscribe(
         response => {
           console.log(`Pelicula guardada ${response}`);

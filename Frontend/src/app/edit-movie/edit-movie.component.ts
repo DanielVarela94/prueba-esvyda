@@ -9,8 +9,6 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { AllmoviesService } from '../services/allmovies.service';
 import { SaveMovieService } from '../services/save-movie.service';
-
-
 interface Genre {
   name: string;
 }

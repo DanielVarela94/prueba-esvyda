@@ -1,34 +1,47 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
-    <div class="container-fluid">
-      <a class="navbar-brand" [routerLink]="['/']" routerLinkActive="router-link-active" ><i class="bi bi-house"></i></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" [routerLink]="['/add-movie']" routerLinkActive="router-link-active" >Añadir</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" [routerLink]="['/list-movies']" routerLinkActive="router-link-active">Mostrar Todas</a>
-          </li>
-          <li class="nav-item active dropdown">
-            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Buscar por
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" [routerLink]="['/search-genre']" routerLinkActive="router-link-active">Género</a></li>
-              <li><a class="dropdown-item" [routerLink]="['/search-actor']" routerLinkActive="router-link-active">Actor</a></li>
-              <li><a class="dropdown-item" [routerLink]="['/search-qualification']" routerLinkActive="router-link-active">Calificación</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" [routerLink]="['/search-date']" routerLinkActive="router-link-active">Fecha de Lanzamiento</a></li>
-            </ul>
-          </li>
-        </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="number" name="id" placeholder="Ingresa un ID..." aria-label="Search" [(ngModel)] = "id">
-          <button class="btn btn-outline-light" type="button" [routerLink]="['/movie-details/', id]"><i class="bi bi-search"></i></button>
-        </form>
-      </div>
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="['/']" routerLinkActive="router-link-active"><i class="bi bi-house"></i></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" [routerLink]="['/add-movie']"
+            routerLinkActive="router-link-active">Añadir</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" [routerLink]="['/list-movies']" routerLinkActive="router-link-active">Mostrar
+            Todas</a>
+        </li>
+        
+        <li class="nav-item active dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Buscar por
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" [routerLink]="['/search-genre']"
+                routerLinkActive="router-link-active">Género</a></li>
+            <li><a class="dropdown-item" [routerLink]="['/search-actor']"
+                routerLinkActive="router-link-active">Actor</a></li>
+            <li><a class="dropdown-item" [routerLink]="['/search-qualification']"
+                routerLinkActive="router-link-active">Calificación</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" [routerLink]="['/search-date']" routerLinkActive="router-link-active">Fecha de
+                Lanzamiento</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="number" name="id" placeholder="Ingresa un ID..." aria-label="Search"
+          [(ngModel)]="id">
+        <button class="btn btn-outline-light" type="button" [routerLink]="['/movie-details/', id]"><i
+            class="bi bi-search"></i></button>
+      </form>
     </div>
-  </nav>
+  </div>
+</nav>

@@ -16,7 +16,6 @@ var controller = {
                 message: "No se ha encontrado ningún género"
             })
         }
-        
     },
 
     saveNewGenre: async (req, res) => {

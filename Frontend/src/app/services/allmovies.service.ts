@@ -36,4 +36,8 @@ export class AllmoviesService {
     return this._http.get(`http://localhost:3000/get-movies-actor/${actor}`)
   }
 
+  getRecomendations(id:number): Observable<any>{
+    return this._http.get(`http://localhost:3000/recomendations/${id}`)
+  }
+
 }

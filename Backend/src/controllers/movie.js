@@ -24,12 +24,6 @@ const controller = {
         }
     },
 
-    updateMovie: async (req, res) => {
-        return res.status(200).send({
-            message: "Actualizar película"
-        });
-    },
-
     getMovieById: async (req, res) => {
         const id = req.params.id;
         const movie = await Movie.findByPk(id, {
@@ -267,7 +261,7 @@ const controller = {
         });
         const movies = await Movie.findAll({
             include: [{ model: Actor, through: { attributes: [] } }, { model: Genre, attributes: ['name'] }],
-            where:{
+            where: {
                 id: actor_movies.map(a => a.idmovies)
             }
         })
@@ -276,6 +270,34 @@ const controller = {
             message: `Hemos encontrado una o más películas donde actúa ${actor}`,
             movies: movies
         });
+    },
+
+    getRecomendations: async (req, res) => {
+        console.log("entra aqui");
+        try {
+            const movieId = req.params.id;
+            const movie = await Movie.findByPk(movieId);
+            if (!movie) {
+                return res.status(404).json({ message: 'Película no encontrada' });
+            }
+            const recommendations = await Movie.findAll({
+                where: {
+                    id: { [sequelize.Op.ne]: movieId },
+                    [sequelize.Op.or]: [
+                        { genre: movie.genre },
+                        { studio: movie.studio },
+                        { synopsis: { [sequelize.Op.like]: `%${movie.synopsis.split(" ")[0]}%` } }
+                    ]
+                },
+                order: [['qualification', 'DESC']],
+                limit: 5
+            });
+
+            return res.status(200).send(recommendations);
+        } catch (error) {
+            console.error('Error obteniendo recomendaciones:', error);
+            res.status(500).send({ message: 'Error del servidor al obtener recomendaciones.' });
+        }
     }
 };
 
