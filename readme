@@ -1,0 +1,25 @@
+Planteamiento 
+Empresas ACME requiere un sitio web que funcione como IMDB donde  quiere mostrar 
+al público información relevante sobre el mundo del cine, por lo cual para este caso se 
+requiere que el sistema permita agregar películas, editar películas, eliminar películas y 
+también mostrar un listado de películas básico donde muestre la imagen y el título pero 
+al darle clic muestre más detalles como(sinopsis, fecha de estreno, genero, actores, 
+estudio, edad mínima y calificación en estrellas de 1 a 5), además también se quiere 
+contar con un sistema de recomendación donde el usuario escoge una película y el 
+sistema le debe arrojar un top 5 de películas similares en base a la sinopsis, los actores, 
+el estudio y el género. 
+Requerimientos 
+Se requiere analizar el problema, plantear el modelo de datos, y desarrollar la api que   
+brinde una solución al problema inicial, siguiendo además los siguientes parámetros: 
+Funcionalidad que permita guardar de una película (titulo, sinopsis, poster(imagen) 
+genero, fecha de lanzamiento, actores, estudio de filmación y calificación y edad 
+mínima para ver) 
+Funcionalidad que permita editar cualquiera de los ítems del punto anterior 
+Funcionalidad para dar de baja(eliminar) una película de la plataforma 
+Funcionalidad para listar películas (mostrando, id, titulo, e imagen) además se puede 
+buscar por (género, actores, fecha de lanzamiento, o calificación) 
+Funcionalidad para traer una película por id mostrando todos sus datos pertinentes 
+(sinopsis, género, actores, estudio, imagen fecha de lanzamiento, calificación, edad 
+mínima)
+//////////////////////////////////////////////////////////////////
+Tecnologías usadas: Node.js, Express, Sequelize, MySQL, Angular 19, TypeScript, Bootstrap.
